@@ -4,14 +4,14 @@ import socket
 import tempfile
 import threading
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.serialization.pkcs12
-import load_key_and_certificates # type: ignore
+from cryptography.hazmat.primitives.serialization.pkcs12 import load_key_and_certificates
 # Configuration
 SERVER_ADDRESS = 'localhost'
 KEY_ALIAS = 'serverdomain'
 SERVER_PORT = 8043
-PKCS12_PATH = '<path>/server.p12' # Update the path to PKCS12 file
-PKCS12_PASSWORD = 'server'
+PKCS12_PATH = 'C:/Users/tonny/C_Server_P2/server.p12' #'<path>/server.p12' # Update the path to PKCS12 file, KLART!
+# PKCS12_PASSWORD = 'server' Original ersätts av under:
+PKCS12_PASSWORD = 'Tonny2002'
 def start_tls_server(address, port, pkcs12_path, pkcs12_password):
     cert_path, key_path, ca_path = None, None, None
     try:
@@ -58,7 +58,8 @@ def start_tls_server(address, port, pkcs12_path, pkcs12_password):
             raise RuntimeError("CA certificate not found")
         #Change this to CERT_REQUIRED to enable mutual TLS
 
-        context.verify_mode = ssl.CERT_NONE
+        # context.verify_mode = ssl.CERT_NONE Orginal
+        context.verify_mode = ssl.CERT_REQUIRED
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as sock:
             sock.bind((address, port))
             sock.listen(1)
