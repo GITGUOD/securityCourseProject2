@@ -8,7 +8,7 @@ load_key_and_certificates
 
 # Configuration
 SERVER_ADDRESS = 'localhost'
-SERVER_PORT = 8043
+SERVER_PORT = 8044
 # PKCS12_PATH = '<path>/client.p12' # Update the path to PKCS12 file, orginal filen
 PKCS12_PATH = 'C:/Users/tonny/C_Klient_P2/client.p12' # Update the path to PKCS12 file
 
@@ -23,7 +23,7 @@ def start_tls_client(server_address, port, pkcs12_path, pkcs12_password):
             private_key, certificate, additional_certificates = load_key_and_certificates(f.read(), p12_password_bytes)
 
         # Extract the private key and certificate in PEM format
-        # add code here ??
+        # add code here ?? Lagt till dessa för att hämta privatnyckeln
         client_key = private_key.private_bytes(
                     encoding=serialization.Encoding.PEM,
                     format=serialization.PrivateFormat.PKCS8, #Format for private key in pem

@@ -8,10 +8,12 @@ from cryptography.hazmat.primitives.serialization.pkcs12 import load_key_and_cer
 # Configuration
 SERVER_ADDRESS = 'localhost'
 KEY_ALIAS = 'serverdomain'
-SERVER_PORT = 8043
+SERVER_PORT = 8044
 PKCS12_PATH = 'C:/Users/tonny/C_Server_P2/server.p12' #'<path>/server.p12' # Update the path to PKCS12 file, KLART!
 # PKCS12_PASSWORD = 'server' Original ersätts av under:
 PKCS12_PASSWORD = 'Tonny2002'
+
+
 def start_tls_server(address, port, pkcs12_path, pkcs12_password):
     cert_path, key_path, ca_path = None, None, None
     try:
