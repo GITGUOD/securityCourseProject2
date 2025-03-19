@@ -9,8 +9,10 @@ load_key_and_certificates
 # Configuration
 SERVER_ADDRESS = 'localhost'
 SERVER_PORT = 8043
-PKCS12_PATH = '<path>/client.p12' # Update the path to PKCS12 file
-PKCS12_PASSWORD = 'client'
+# PKCS12_PATH = '<path>/client.p12' # Update the path to PKCS12 file, orginal filen
+PKCS12_PATH = 'C:/Users/tonny/C_Klient_P2/client.p12' # Update the path to PKCS12 file
+
+PKCS12_PASSWORD = 'Tonny2002'
 
 def start_tls_client(server_address, port, pkcs12_path, pkcs12_password):
     cert_file, key_file, ca_file = None, None, None
@@ -22,6 +24,12 @@ def start_tls_client(server_address, port, pkcs12_path, pkcs12_password):
 
         # Extract the private key and certificate in PEM format
         # add code here ??
+        client_key = private_key.private_bytes(
+                    encoding=serialization.Encoding.PEM,
+                    format=serialization.PrivateFormat.PKCS8, #Format for private key in pem
+                    encryption_algorithm=serialization.NoEncryption()
+                )
+
         client_cert = certificate.public_bytes(serialization.Encoding.PEM)
 
         # Process additional certificates (usually includes the CA certificate)

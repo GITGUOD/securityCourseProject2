@@ -58,8 +58,8 @@ def start_tls_server(address, port, pkcs12_path, pkcs12_password):
             raise RuntimeError("CA certificate not found")
         #Change this to CERT_REQUIRED to enable mutual TLS
 
-        # context.verify_mode = ssl.CERT_NONE Orginal
-        context.verify_mode = ssl.CERT_REQUIRED
+        # context.verify_mode = ssl.CERT_NONE Orginal 
+        context.verify_mode = ssl.CERT_REQUIRED #KLART!
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as sock:
             sock.bind((address, port))
             sock.listen(1)
