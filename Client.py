@@ -10,7 +10,7 @@ load_key_and_certificates
 SERVER_ADDRESS = 'localhost'
 SERVER_PORT = 8044
 # PKCS12_PATH = '<path>/client.p12' # Update the path to PKCS12 file, orginal filen
-PKCS12_PATH = 'C:/Users/tonny/C_Klient_P2/client.p12' # Update the path to PKCS12 file
+PKCS12_PATH = '/Users/natchapantanachokboonyarat/Desktop/TonnysEITF55/client.p12' # Update the path to PKCS12 file
 
 PKCS12_PASSWORD = 'Tonny2002'
 

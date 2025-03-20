@@ -9,7 +9,7 @@ from cryptography.hazmat.primitives.serialization.pkcs12 import load_key_and_cer
 SERVER_ADDRESS = 'localhost'
 KEY_ALIAS = 'serverdomain'
 SERVER_PORT = 8044
-PKCS12_PATH = 'C:/Users/tonny/C_Server_P2/server.p12' #'<path>/server.p12' # Update the path to PKCS12 file, KLART!
+PKCS12_PATH = '/Users/natchapantanachokboonyarat/Desktop/TonnysEITF55/server.p12' #'<path>/server.p12' # Update the path to PKCS12 file, KLART!
 # PKCS12_PASSWORD = 'server' Original ersätts av under:
 PKCS12_PASSWORD = 'Tonny2002'
 
@@ -62,13 +62,15 @@ def start_tls_server(address, port, pkcs12_path, pkcs12_password):
 
         # context.verify_mode = ssl.CERT_NONE Orginal 
         context.verify_mode = ssl.CERT_REQUIRED #KLART!
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as sock:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.bind((address, port))
             sock.listen(1)
             print(f"Server listening on {address}:{port}")
 
             with context.wrap_socket(sock, server_side=True) as ssock:
                 conn, addr = ssock.accept()
+                #kommer inte in hit
+
                 with conn:
                     print(f"Connected by {addr}")
                     while True:
