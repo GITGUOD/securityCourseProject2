@@ -1,15 +1,14 @@
-/==========================================================================
 //Sample client using sslsockets
 import java.io.*;
 import java.net.*;
 import java.security.*;
 import javax.net.ssl.*;
 
-public class client {
+public class Client {
     private static final String HOST = "localhost";
     private static final int PORT = 8043;
     // Client PKCS12 file path
-    private static final String PKCS12Location = "/Users/natchapantanachokboonyarat/Desktop/TonnysEITF55/server.p12" //'<path>/server.p12 Update the path to PKCS12 file, KLART!;
+    private static final String PKCS12Location = "/Users/natchapantanachokboonyarat/Desktop/TonnysEITF55/server.p12"; //'<path>/server.p12 Update the path to PKCS12 file, KLART!;
     private static final String PKCS12Password = "Tonny2002"; // Update if password changed
     //Add custom TrustStore password if not using cacerts
     //private static final String TSPassword = "changeit";
@@ -27,11 +26,11 @@ public class client {
         KeyStore ks = KeyStore.getInstance("PKCS12");
 
         try (FileInputStream fis = new FileInputStream(PKCS12Location)) {
-            ks.load(fis, passphrase);
+            ks.load(fis, passphrase_ks);
         }
         // Initialize a KeyManagerFactory with the KeyStore
         KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
-        kmf.init(ks, passphrase);
+        kmf.init(ks, passphrase_ks);
 
         KeyManager[] keyManagers = kmf.getKeyManagers();
 
@@ -56,7 +55,7 @@ public class client {
                 int inCharacter=0;
                 inCharacter = System.in.read();
                 try {
-                    while (inCharacter != ’~’)
+                    while (inCharacter != '~')
                     {
                     toserver.write(inCharacter);
                     toserver.flush();
@@ -75,7 +74,6 @@ public class client {
             System.out.println("Cannot estabilish connection to server.");
             e.printStackTrace();
             
-            Project2 Assignment - PKI and TLS The TLS Server and Client
         } finally {
             System.out.println("client stopped.");
         }

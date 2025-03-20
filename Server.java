@@ -1,11 +1,13 @@
-mport java.io.*;
+import java.io.*;
+
 import java.net.*;
 import java.security.*;
 import javax.net.ssl.*;
-    public class server {
+
+    public class Server {
     private static final int PORT = 8043; // likely this port number is ok to use
     // Server PKCS12 file path
-    private static final String PKCS12Location = '/Users/natchapantanachokboonyarat/Desktop/TonnysEITF55/server.p12' #'<path>/server.p12' // Update the path to PKCS12 file, KLART!;
+    private static final String PKCS12Location = "/Users/natchapantanachokboonyarat/Desktop/TonnysEITF55/server.p12"; //'<path>/server.p12' // Update the path to PKCS12 file, KLART!;
     private static final String PKCS12Password = "Tonny2002"; // Update if password changed OK!
 
     public static void main (String[] args) throws Exception {
@@ -38,7 +40,7 @@ import javax.net.ssl.*;
 
         // Create an SSLContext to run TLSv1.3 and initialize it with
         SSLContext context = SSLContext.getInstance("TLSv1.3");
-        context.init(keyManagers, null, new SecureRandom());
+        context.init(keyManagers, trustManagers, new SecureRandom());
         SSLServerSocketFactory ssf = context.getServerSocketFactory();
 
         // Create server socket
@@ -57,7 +59,6 @@ import javax.net.ssl.*;
                         System.out.println(line);
                     }
                     
-                    Project2 Assignment - PKI and TLS The TLS Server and Client
                 } catch (SocketException | EOFException e) {
                     System.out.println("Client disconnected abruptly.");
                     keepRunning = false;
@@ -72,4 +73,3 @@ import javax.net.ssl.*;
             }
     }
 }
-//==========================================================================
