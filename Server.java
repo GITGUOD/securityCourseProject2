@@ -5,8 +5,8 @@ import javax.net.ssl.*;
     public class server {
     private static final int PORT = 8043; // likely this port number is ok to use
     // Server PKCS12 file path
-    private static final String PKCS12Location = "<path>/server.p12";
-    private static final String PKCS12Password = "server"; // Update if password changed
+    private static final String PKCS12Location = '/Users/natchapantanachokboonyarat/Desktop/TonnysEITF55/server.p12' #'<path>/server.p12' // Update the path to PKCS12 file, KLART!;
+    private static final String PKCS12Password = "Tonny2002"; // Update if password changed OK!
 
     public static void main (String[] args) throws Exception {
         boolean keepRunning = true;

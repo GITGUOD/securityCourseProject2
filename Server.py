@@ -62,7 +62,7 @@ def start_tls_server(address, port, pkcs12_path, pkcs12_password):
 
         # context.verify_mode = ssl.CERT_NONE Orginal 
         context.verify_mode = ssl.CERT_REQUIRED #KLART!
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as sock:
             sock.bind((address, port))
             sock.listen(1)
             print(f"Server listening on {address}:{port}")
@@ -70,7 +70,7 @@ def start_tls_server(address, port, pkcs12_path, pkcs12_password):
             with context.wrap_socket(sock, server_side=True) as ssock:
                 conn, addr = ssock.accept()
                 #kommer inte in hit
-
+                
                 with conn:
                     print(f"Connected by {addr}")
                     while True:
