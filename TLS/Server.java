@@ -5,15 +5,20 @@ import java.security.*;
 import javax.net.ssl.*;
 
     public class Server {
-    private static final int PORT = 8043; // likely this port number is ok to use
+    private static final int PORT = 8044; // likely this port number is ok to use
     // Server PKCS12 file path
     private static final String PKCS12Location = "/Users/natchapantanachokboonyarat/Desktop/securityCourseProject2/certificates/server.p12"; //'<path>/server.p12' // Update the path to PKCS12 file, KLART!;
     private static final String PKCS12Password = "Tonny2002"; // Update if password changed OK!
+
+      //Add custom TrustStore password if not using cacerts
+      private static final String TRUSTSTORE_LOCATION = "/Users/natchapantanachokboonyarat/Desktop/securityCourseProject2/certificates/server_truststore.jks"; // Update the path
+      private static final String TRUSTSTORE_PASSWORD = "Tonny2002"; //change it är defaultlösenordet på truststore
 
     public static void main (String[] args) throws Exception {
         boolean keepRunning = true;
         // First we need to load a keystore
         char[] passphrase = PKCS12Password.toCharArray();
+        char[] passphrase_ts = TRUSTSTORE_PASSWORD.toCharArray();
         KeyStore ks = KeyStore.getInstance("PKCS12");
 
         try (FileInputStream fis = new FileInputStream(PKCS12Location)) {
@@ -26,15 +31,22 @@ import javax.net.ssl.*;
         // KeyManagers from the KeyManagerFactory
         KeyManager[] keyManagers = kmf.getKeyManagers();
 
+        //Load custom truststore
+        KeyStore ts = KeyStore.getInstance("JKS");
+        try (FileInputStream fil = new FileInputStream(TRUSTSTORE_LOCATION)) {
+            ts.load(fil, passphrase_ts);
+        }
+
         //Adding custom TrustStore
-        //System.setProperty("javax.net.ssl.trustStore","<pathtoyour>/truststore.p12");
-        //System.setProperty("javax.net.ssl.trustStorePassword","changeit");
-        //tmf.init(ts);
+        //System.setProperty("javax.net.ssl.trustStore","<pathtoyour>/truststore.p12"); Orginal
+        System.setProperty("javax.net.ssl.trustStore",TRUSTSTORE_LOCATION);
+        //System.setProperty("javax.net.ssl.trustStorePassword","changeit"); //orginal
+        System.setProperty("javax.net.ssl.trustStorePassword", TRUSTSTORE_PASSWORD);
 
         // Obtain the default TrustManagers for the system’s truststore (cacerts)
         TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
 
-        tmf.init((KeyStore) null); // Use the system’s truststore ’cacerts’
+        tmf.init((KeyStore) ts); // Use the system’s truststore ’cacerts’
 
         TrustManager[] trustManagers = tmf.getTrustManagers();
 
@@ -49,9 +61,10 @@ import javax.net.ssl.*;
         System.out.println("Server started and waiting for connections...");
         // Continuously accept new connections
         while (keepRunning) {
-                    
+
                 try (SSLSocket s = (SSLSocket) ss.accept();
                 BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()))) {
+
                     System.out.println("Client connected.");
                     // Read and process input from the client
                     String line;

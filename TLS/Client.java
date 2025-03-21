@@ -6,7 +6,7 @@ import javax.net.ssl.*;
 
 public class Client {
     private static final String HOST = "localhost";
-    private static final int PORT = 8043;
+    private static final int PORT = 8044;
     // Client PKCS12 file path
     private static final String PKCS12Location = "/Users/natchapantanachokboonyarat/Desktop/securityCourseProject2/certificates/client.p12"; //'<path>/server.p12 Update the path to PKCS12 file, KLART!;
     private static final String PKCS12Password = "Tonny2002"; // Update if password changed
@@ -45,7 +45,6 @@ public class Client {
         TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
         tmf.init((KeyStore) ts); // Use the custom truststore ’cacerts’
         TrustManager[] trustManagers = tmf.getTrustManagers();
-        
 
         SSLContext context = SSLContext.getInstance("TLSv1.3");
         //TrustManager (2nd argu) is null to use the default trust manager cacerts
@@ -60,6 +59,7 @@ public class Client {
                 System.out.print("\nConnection established.\n\n");
                 int inCharacter=0;
                 inCharacter = System.in.read();
+
                 try {
                     while (inCharacter != '~')
                     {
