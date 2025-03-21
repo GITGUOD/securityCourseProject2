@@ -50,38 +50,29 @@ public class Client {
         //TrustManager (2nd argu) is null to use the default trust manager cacerts
         //To use custom TrustStore, 2nd argument changes to ’trustManagers’
         //context.init(??, ??, ??); //Add correct arguments
-        context.init(keyManagers, trustManagers, new SecureRandom()); //KLART
+        context.init(keyManagers, null, new SecureRandom()); //KLART
 
+        // Create client socket
         SSLSocketFactory sf = context.getSocketFactory();
-            try (SSLSocket s = (SSLSocket) sf.createSocket(HOST,PORT)) {
-                OutputStream toserver = s.getOutputStream();
-                toserver.write("\nConnection established.\n\n".getBytes());
-                System.out.print("\nConnection established.\n\n");
-                int inCharacter=0;
-                inCharacter = System.in.read();
+        try (SSLSocket socket = (SSLSocket) sf.createSocket(HOST, PORT);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in))) {
 
-                try {
-                    while (inCharacter != '~')
-                    {
-                    toserver.write(inCharacter);
-                    toserver.flush();
-                    inCharacter = System.in.read();
-                    }
-                }catch (SocketException | EOFException e) {
-                    System.out.print("\nClient Closing.\n\n");
-                    e.printStackTrace();
-                    toserver.close();
-                    s.shutdownOutput();
-                    s.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            System.out.println("Connected to server.");
+
+            String userMessage;
+            while (true) {
+                System.out.print("Enter message (or 'exit' to quit): ");
+                userMessage = userInput.readLine();
+                if ("exit".equalsIgnoreCase(userMessage)) {
+                    break;
+                }
+                out.println(userMessage);
+                System.out.println("Server response: " + in.readLine());
             }
-        }catch (IOException e) {
-            System.out.println("Cannot estabilish connection to server.");
-            e.printStackTrace();
-            
-        } finally {
-            System.out.println("client stopped.");
+        } catch (IOException e) {
+            System.out.println("Connection error: " + e.getMessage());
         }
     }
 }

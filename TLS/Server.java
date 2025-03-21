@@ -63,15 +63,28 @@ import javax.net.ssl.*;
         while (keepRunning) {
 
                 try (SSLSocket s = (SSLSocket) ss.accept();
-                BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()))) {
+                    BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                    PrintWriter out = new PrintWriter(s.getOutputStream(), true)) {
 
                     System.out.println("Client connected.");
                     // Read and process input from the client
                     String line;
                     while ((line = in.readLine()) != null) {
-                        System.out.println(line);
+
+                        line = line.trim();
+                        if (line.isEmpty()) {
+                            continue;  // Skippa tomma lines
+                        }
+
+                        System.out.println("Received from client: " + line);
+                        
+
+                        System.out.println("Received: " + line);
+                        out.println(line); // Echo back the message
+
                     }
-                    
+                    System.out.print("Dead");
+
                 } catch (SocketException | EOFException e) {
                     System.out.println("Client disconnected abruptly.");
                     keepRunning = false;
