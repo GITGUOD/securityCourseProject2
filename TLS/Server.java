@@ -52,7 +52,7 @@ import javax.net.ssl.*;
 
         // Create an SSLContext to run TLSv1.3 and initialize it with
         SSLContext context = SSLContext.getInstance("TLSv1.3");
-        context.init(keyManagers, trustManagers, new SecureRandom());
+        context.init(keyManagers, null, new SecureRandom());
         SSLServerSocketFactory ssf = context.getServerSocketFactory();
 
         // Create server socket
