@@ -50,7 +50,7 @@ public class Client {
         //TrustManager (2nd argu) is null to use the default trust manager cacerts
         //To use custom TrustStore, 2nd argument changes to ’trustManagers’
         //context.init(??, ??, ??); //Add correct arguments
-        context.init(keyManagers, null, new SecureRandom()); //KLART
+        context.init(keyManagers, trustManagers, new SecureRandom()); //KLART
 
         // Create client socket
         SSLSocketFactory sf = context.getSocketFactory();
