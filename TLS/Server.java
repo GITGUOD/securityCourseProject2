@@ -61,6 +61,7 @@ import javax.net.ssl.*;
         //ss.setNeedClientAuth(true); // Require client authentication
         System.out.println("Server started and waiting for connections...");
         // Continuously accept new connections
+        ss.setEnabledCipherSuites(new String[]{"TLS_AES_256_GCM_SHA384"});
         while (keepRunning) {
 
                 try (SSLSocket s = (SSLSocket) ss.accept();
@@ -84,7 +85,6 @@ import javax.net.ssl.*;
                         out.println(line); // Echo back the message
 
                     }
-                    System.out.print("Dead");
 
                 } catch (SocketException | EOFException e) {
                     System.out.println("Client disconnected abruptly.");
