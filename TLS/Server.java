@@ -5,14 +5,14 @@ import java.security.*;
 import javax.net.ssl.*;
 
     public class Server {
-    private static final int PORT = 8044; // likely this port number is ok to use
+    private static final int PORT = 8043; // likely this port number is ok to use
     // Server PKCS12 file path
     private static final String PKCS12Location = "/Users/natchapantanachokboonyarat/Desktop/securityCourseProject2/certificates/server.p12"; //'<path>/server.p12' // Update the path to PKCS12 file, KLART!;
     private static final String PKCS12Password = "Tonny2002"; // Update if password changed OK!
 
       //Add custom TrustStore password if not using cacerts
       private static final String TRUSTSTORE_LOCATION = "/Users/natchapantanachokboonyarat/Desktop/securityCourseProject2/certificates/server_truststore.jks"; // Update the path
-      private static final String TRUSTSTORE_PASSWORD = "Tonny2002"; //change it är defaultlösenordet på truststore
+      private static final String TRUSTSTORE_PASSWORD = "Tonny2002"; //changeit är defaultlösenordet på truststore
 
     public static void main (String[] args) throws Exception {
         boolean keepRunning = true;
@@ -42,6 +42,7 @@ import javax.net.ssl.*;
         System.setProperty("javax.net.ssl.trustStore",TRUSTSTORE_LOCATION);
         //System.setProperty("javax.net.ssl.trustStorePassword","changeit"); //orginal
         System.setProperty("javax.net.ssl.trustStorePassword", TRUSTSTORE_PASSWORD);
+        System.setProperty("javax.net.ssl.keyLogFile", "/Users/natchapantanachokboonyarat/Desktop/securityCourseProject2/certificates/sslkeylog.log");
 
         // Obtain the default TrustManagers for the system’s truststore (cacerts)
         TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
@@ -52,7 +53,7 @@ import javax.net.ssl.*;
 
         // Create an SSLContext to run TLSv1.3 and initialize it with
         SSLContext context = SSLContext.getInstance("TLSv1.3");
-        context.init(keyManagers, null, new SecureRandom());
+        context.init(keyManagers, trustManagers, new SecureRandom());
         SSLServerSocketFactory ssf = context.getServerSocketFactory();
 
         // Create server socket
