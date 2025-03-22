@@ -7,7 +7,7 @@ import javax.net.ssl.*;
     public class Server {
     private static final int PORT = 8043; // likely this port number is ok to use
     // Server PKCS12 file path
-    private static final String PKCS12Location = "/Users/natchapantanachokboonyarat/Desktop/securityCourseProject2/certificates/server.p12"; //'<path>/server.p12' // Update the path to PKCS12 file, KLART!;
+    private static final String PKCS12Location = "/Users/natchapantanachokboonyarat/Desktop/securityCourseProject2/certificates/nya-filen.p12"; //'<path>/server.p12' // Update the path to PKCS12 file, KLART!;
     private static final String PKCS12Password = "Tonny2002"; // Update if password changed OK!
 
       //Add custom TrustStore password if not using cacerts
@@ -53,7 +53,7 @@ import javax.net.ssl.*;
 
         // Create an SSLContext to run TLSv1.3 and initialize it with
         SSLContext context = SSLContext.getInstance("TLSv1.3");
-        context.init(keyManagers, trustManagers, new SecureRandom());
+        context.init(keyManagers, null, new SecureRandom());
         SSLServerSocketFactory ssf = context.getServerSocketFactory();
 
         // Create server socket

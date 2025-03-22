@@ -8,9 +8,9 @@ load_key_and_certificates
 
 # Configuration
 SERVER_ADDRESS = 'localhost'
-SERVER_PORT = 8044
+SERVER_PORT = 8045
 # PKCS12_PATH = '<path>/client.p12' # Update the path to PKCS12 file, orginal filen
-PKCS12_PATH = '/Users/natchapantanachokboonyarat/Desktop/TonnysEITF55/client.p12' # Update the path to PKCS12 file
+PKCS12_PATH = '/Users/natchapantanachokboonyarat/Desktop/securityCourseProject2/certificates/client.p12' # Update the path to PKCS12 file
 
 PKCS12_PASSWORD = 'Tonny2002'
 
@@ -23,14 +23,13 @@ def start_tls_client(server_address, port, pkcs12_path, pkcs12_password):
             private_key, certificate, additional_certificates = load_key_and_certificates(f.read(), p12_password_bytes)
 
         # Extract the private key and certificate in PEM format
+        client_cert = certificate.public_bytes(serialization.Encoding.PEM)
         # add code here ?? Lagt till dessa för att hämta privatnyckeln
         client_key = private_key.private_bytes(
                     encoding=serialization.Encoding.PEM,
-                    format=serialization.PrivateFormat.PKCS8, #Format for private key in pem
+                    format=serialization.PrivateFormat.TraditionalOpenSSL, #Format for private key in pem
                     encryption_algorithm=serialization.NoEncryption()
                 )
-
-        client_cert = certificate.public_bytes(serialization.Encoding.PEM)
 
         # Process additional certificates (usually includes the CA certificate)
         ca_cert = additional_certificates[0].public_bytes(serialization.Encoding.PEM) \
@@ -60,6 +59,11 @@ def start_tls_client(server_address, port, pkcs12_path, pkcs12_password):
         else:
             raise RuntimeError("CA certificate not found")
         context.check_hostname = True
+
+        #Ändra till t´CERT:REQUIRED flr att fixa mutual tls.
+        context.verify_mode = ssl.CERT_REQUIRED
+        #context.verify_mode = ssl.CERT_NONE
+
         received_messages = [] # List to store received messages
 
         with socket.create_connection((server_address, port)) as sock:
@@ -73,6 +77,8 @@ def start_tls_client(server_address, port, pkcs12_path, pkcs12_password):
 
                     ssock.sendall(message.encode())
                     response = ssock.recv(1024)
+                    if not response:
+                        break
                     received_messages.append(response.decode())# Store received message
 
         print("Received messages during the session:")
